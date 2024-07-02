@@ -1,0 +1,40 @@
+{
+    "name": "samharvey/laravel-dotmailer-mail-driver",
+    "description": "A Laravel mail driver for Dotmailer.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Samharvey\\LaravelDotmailerMailDriver\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Samharvey\\LaravelDotmailerMailDriver\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sam Harvey",
+            "email": "sam.harvey@fleximize.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.13",
+        "symfony/mailer": "^7.1",
+        "illuminate/http": "^11.13"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Samharvey\\LaravelDotmailerMailDriver\\LaravelDotmailerMailDriverServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "laravel/pint": "^1.16"
+    }
+}
