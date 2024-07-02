@@ -223,7 +223,10 @@ class DotmailerMailDriverTest extends TestCase
             }
 
             return $request->url() === 'https://test-api.dotdigital.com/v2/email'
-                && $expectedData === $actualData;
+                && $expectedData === $actualData
+                && $request->hasHeader('Authorization', 'Basic '.base64_encode('test:test'))
+                && $request->hasHeader('Content-Type', 'application/json')
+                && $request->hasHeader('Accept', 'application/json');
         });
 
         Http::assertSentCount(1);
