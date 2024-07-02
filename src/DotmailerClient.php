@@ -39,8 +39,7 @@ class DotmailerClient
 
         $endpoint = sprintf('https://%s-api.dotdigital.com%s', $region, $endpoint);
 
-        $pendingRequest = Http::createPendingRequest()
-            ->asJson()
+        $pendingRequest = Http::asJson()
             ->acceptJson()
             ->withHeaders($headers)
             ->when($requiresAuth, fn (PendingRequest $request) => $request->withBasicAuth(...$authTuple));

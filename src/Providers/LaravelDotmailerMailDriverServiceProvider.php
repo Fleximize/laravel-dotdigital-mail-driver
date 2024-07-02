@@ -33,5 +33,11 @@ class LaravelDotmailerMailDriverServiceProvider extends ServiceProvider
         Mail::extend(DotmailerEnum::DOTMAILER->value, fn (array $config) => new DotmailerTransport(
             app(DotmailerClient::class),
         ));
+
+        config([
+            sprintf('mail.mailers.%s', DotmailerEnum::DOTMAILER->value) => [
+                'transport' => DotmailerEnum::DOTMAILER->value,
+            ],
+        ]);
     }
 }

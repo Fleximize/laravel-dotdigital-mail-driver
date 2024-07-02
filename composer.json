@@ -10,7 +10,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Samharvey\\LaravelDotmailerMailDriver\\Tests\\": "tests/"
+            "Samharvey\\LaravelDotmailerMailDriver\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
         }
     },
     "authors": [
@@ -21,9 +24,9 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "^11.13",
-        "symfony/mailer": "^7.1",
-        "illuminate/http": "^11.13"
+        "illuminate/support": "^10.48",
+        "illuminate/http": "^10.48",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "extra": {
         "laravel": {
@@ -35,6 +38,26 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "laravel/pint": "^1.16"
+        "laravel/pint": "^1.16",
+        "orchestra/testbench": "^8.23",
+        "phpunit/phpunit": "^9.6"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "lint": [
+            "@php vendor/bin/pint",
+            "@php vendor/bin/phpstan analyse"
+        ]
     }
 }
