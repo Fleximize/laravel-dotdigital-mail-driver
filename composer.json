@@ -40,7 +40,7 @@
     "require-dev": {
         "laravel/pint": "^1.16",
         "orchestra/testbench": "^8.23",
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^9.6 || ^10.0"
     },
     "scripts": {
         "post-autoload-dump": [
