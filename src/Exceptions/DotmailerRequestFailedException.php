@@ -13,9 +13,9 @@ class DotmailerRequestFailedException extends Exception
     {
         parent::__construct(
             sprintf(
-                'Dotmailer request failed with status code %s and response: %s',
-                $dotmailerResponse->getStatusCode(),
-                $dotmailerResponse->getContent() ?: '[NO CONTENT]'
+                'Dotmailer request failed with status code %s and body: %s',
+                $dotmailerResponse->status(),
+                $dotmailerResponse->body() ?: '[NO CONTENT]'
             )
         );
     }

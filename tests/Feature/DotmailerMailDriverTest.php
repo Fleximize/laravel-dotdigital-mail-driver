@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Mail;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
 use Samharvey\LaravelDotmailerMailDriver\Enums\DotmailerEnum;
+use Samharvey\LaravelDotmailerMailDriver\Exceptions\DotmailerRequestFailedException;
+use Samharvey\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerCredentialsException;
+use Samharvey\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerRegionException;
 use Samharvey\LaravelDotmailerMailDriver\Providers\LaravelDotmailerMailDriverServiceProvider;
 use Symfony\Component\Mime\Part\DataPart;
 
@@ -53,15 +56,57 @@ class DotmailerMailDriverTest extends TestCase
                 true,
                 [File::create('test.pdf'), File::create('test2.pdf')],
             ],
+
+            'only required parameters present - html' => [
+                $uniqueFaker->safeEmail(),
+                $uniqueFaker->safeEmail(),
+                null,
+                null,
+                $uniqueFaker->sentence(),
+                true,
+                false,
+                [],
+            ],
+
+            'only required parameters present - plain text' => [
+                $uniqueFaker->safeEmail(),
+                $uniqueFaker->safeEmail(),
+                null,
+                null,
+                $uniqueFaker->sentence(),
+                false,
+                true,
+                [],
+            ],
+        ];
+    }
+
+    public function authDataProvider(): array
+    {
+        return [
+            'username missing' => [
+                'username' => null,
+                'password' => 'test',
+            ],
+
+            'password missing' => [
+                'username' => 'test',
+                'password' => null,
+            ],
+
+            'both missing' => [
+                'username' => null,
+                'password' => null,
+            ],
         ];
     }
 
     /**
      * @dataProvider mailDataProvider
      */
-    public function test_can_send_email_via_dotmailer_when_parameters_are_present(
+    public function test_can_send_mail_via_dotmailer_when_parameters_are_present(
         string $fromAddress,
-        string|array|null $toAddresses,
+        string|array $toAddresses,
         string|array|null $ccAddresses,
         string|array|null $bccAddresses,
         string $subject,
@@ -73,8 +118,6 @@ class DotmailerMailDriverTest extends TestCase
         config()->set('dotmailer.username', 'test');
         config()->set('dotmailer.password', 'test');
 
-        Mail::fake();
-
         Http::fake([
             '*' => Http::response(['message' => 'Mail sent'], 200),
         ]);
@@ -83,7 +126,7 @@ class DotmailerMailDriverTest extends TestCase
         {
             public function __construct(
                 public string $testFromAddress,
-                public string|array|null $testToAddresses,
+                public string|array $testToAddresses,
                 public string|array|null $testCcAddresses,
                 public string|array|null $testBccAddresses,
                 public string $testSubject,
@@ -182,5 +225,118 @@ class DotmailerMailDriverTest extends TestCase
             return $request->url() === 'https://test-api.dotdigital.com/v2/email'
                 && $expectedData === $actualData;
         });
+
+        Http::assertSentCount(1);
+    }
+
+    /**
+     * @dataProvider authDataProvider
+     */
+    public function test_exception_is_thrown_when_username_or_password_is_missing(
+        ?string $username,
+        ?string $password,
+    ): void {
+        config()->set('dotmailer.region', 'test');
+        config()->set('dotmailer.username', $username);
+        config()->set('dotmailer.password', $password);
+
+        $this->expectException(MissingDotmailerCredentialsException::class);
+
+        Http::fake([
+            '*' => Http::response(['message' => 'Mail sent'], 200),
+        ]);
+
+        $fakeMailable = new class extends Mailable
+        {
+            public function envelope(): Envelope
+            {
+                return new Envelope(
+                    from: 'from@example.com',
+                    to: 'to@example.com',
+                );
+            }
+
+            public function content(): Content
+            {
+                return new Content(
+                    htmlString: '<p>This is an example email body</p>',
+                );
+            }
+        };
+
+        Mail::driver(DotmailerEnum::DOTMAILER->value)->send($fakeMailable);
+
+        Http::assertNothingSent();
+    }
+
+    public function test_exception_is_thrown_when_region_is_missing(): void
+    {
+        config()->set('dotmailer.region', null);
+        config()->set('dotmailer.username', 'test');
+        config()->set('dotmailer.password', 'test');
+
+        $this->expectException(MissingDotmailerRegionException::class);
+
+        Http::fake([
+            '*' => Http::response(['message' => 'Mail sent'], 200),
+        ]);
+
+        $fakeMailable = new class extends Mailable
+        {
+            public function envelope(): Envelope
+            {
+                return new Envelope(
+                    from: 'from@example.com',
+                    to: 'to@example.com',
+                );
+            }
+
+            public function content(): Content
+            {
+                return new Content(
+                    htmlString: '<p>This is an example email body</p>',
+                );
+            }
+        };
+
+        Mail::driver(DotmailerEnum::DOTMAILER->value)->send($fakeMailable);
+
+        Http::assertNothingSent();
+    }
+
+    public function test_exception_is_thrown_when_request_to_dotdigital_fails(): void
+    {
+        config()->set('dotmailer.region', 'test');
+        config()->set('dotmailer.username', 'test');
+        config()->set('dotmailer.password', 'test');
+
+        $this->expectException(DotmailerRequestFailedException::class);
+        $this->expectExceptionMessage('Dotmailer request failed with status code 500 and body: {"message":"Mail NOT sent"}');
+
+        Http::fake([
+            '*' => Http::response(['message' => 'Mail NOT sent'], 500),
+        ]);
+
+        $fakeMailable = new class extends Mailable
+        {
+            public function envelope(): Envelope
+            {
+                return new Envelope(
+                    from: 'from@example.com',
+                    to: 'to@example.com',
+                );
+            }
+
+            public function content(): Content
+            {
+                return new Content(
+                    htmlString: '<p>This is an example email body</p>',
+                );
+            }
+        };
+
+        Mail::driver(DotmailerEnum::DOTMAILER->value)->send($fakeMailable);
+
+        Http::assertSentCount(1);
     }
 }
