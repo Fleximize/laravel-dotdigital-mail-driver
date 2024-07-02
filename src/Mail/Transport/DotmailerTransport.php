@@ -6,6 +6,7 @@ namespace Samharvey\LaravelDotmailerMailDriver\Mail\Transport;
 
 use Samharvey\LaravelDotmailerMailDriver\DotmailerClient;
 use Samharvey\LaravelDotmailerMailDriver\Enums\DotmailerEnum;
+use Samharvey\LaravelDotmailerMailDriver\Exceptions\DotmailerRequestFailedException;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mime\MessageConverter;
@@ -21,7 +22,7 @@ class DotmailerTransport extends AbstractTransport
     {
         $email = MessageConverter::toEmail($message->getOriginalMessage());
 
-        $this->dotmailerClient->sendMail(
+        $response = $this->dotmailerClient->sendMail(
             $email->getFrom()[0]->getAddress(),
             array_map(fn ($address) => $address->getAddress(), $email->getTo()),
             array_map(fn ($address) => $address->getAddress(), $email->getCc()),
@@ -31,6 +32,12 @@ class DotmailerTransport extends AbstractTransport
             $email->getTextBody(),
             $email->getAttachments(),
         );
+
+        if ($response->successful()) {
+            return;
+        }
+
+        throw new DotmailerRequestFailedException($response);
     }
 
     public function __toString(): string
