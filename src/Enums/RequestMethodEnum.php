@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Samharvey\LaravelDotmailerMailDriver\Enums;
+namespace Fleximize\LaravelDotmailerMailDriver\Enums;
 
 enum RequestMethodEnum
 {

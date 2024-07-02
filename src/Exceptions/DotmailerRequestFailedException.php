@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Samharvey\LaravelDotmailerMailDriver\Exceptions;
+namespace Fleximize\LaravelDotmailerMailDriver\Exceptions;
 
 use Exception;
 use Illuminate\Http\Client\Response;

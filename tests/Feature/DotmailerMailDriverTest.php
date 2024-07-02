@@ -1,6 +1,6 @@
 <?php
 
-namespace Samharvey\LaravelDotmailerMailDriver\Tests\Feature;
+namespace Fleximize\LaravelDotmailerMailDriver\Tests\Feature;
 
 use Illuminate\Http\Client\Request;
 use Illuminate\Http\Testing\File;
@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase;
-use Samharvey\LaravelDotmailerMailDriver\Enums\DotmailerEnum;
-use Samharvey\LaravelDotmailerMailDriver\Exceptions\DotmailerRequestFailedException;
-use Samharvey\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerCredentialsException;
-use Samharvey\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerRegionException;
-use Samharvey\LaravelDotmailerMailDriver\Providers\LaravelDotmailerMailDriverServiceProvider;
+use Fleximize\LaravelDotmailerMailDriver\Enums\DotmailerEnum;
+use Fleximize\LaravelDotmailerMailDriver\Exceptions\DotmailerRequestFailedException;
+use Fleximize\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerCredentialsException;
+use Fleximize\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerRegionException;
+use Fleximize\LaravelDotmailerMailDriver\Providers\LaravelDotmailerMailDriverServiceProvider;
 use Symfony\Component\Mime\Part\DataPart;
 
 class DotmailerMailDriverTest extends TestCase

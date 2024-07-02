@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Samharvey\LaravelDotmailerMailDriver\Mail\Transport;
+namespace Fleximize\LaravelDotmailerMailDriver\Mail\Transport;
 
-use Samharvey\LaravelDotmailerMailDriver\DotmailerClient;
-use Samharvey\LaravelDotmailerMailDriver\Enums\DotmailerEnum;
-use Samharvey\LaravelDotmailerMailDriver\Exceptions\DotmailerRequestFailedException;
+use Fleximize\LaravelDotmailerMailDriver\DotmailerClient;
+use Fleximize\LaravelDotmailerMailDriver\Enums\DotmailerEnum;
+use Fleximize\LaravelDotmailerMailDriver\Exceptions\DotmailerRequestFailedException;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mime\MessageConverter;

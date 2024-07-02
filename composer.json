@@ -1,16 +1,16 @@
 {
-    "name": "samharvey/laravel-dotmailer-mail-driver",
+    "name": "fleximize/laravel-dotmailer-mail-driver",
     "description": "A Laravel mail driver for Dotmailer.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Samharvey\\LaravelDotmailerMailDriver\\": "src/"
+            "Fleximize\\LaravelDotmailerMailDriver\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Samharvey\\LaravelDotmailerMailDriver\\Tests\\": "tests/",
+            "Fleximize\\LaravelDotmailerMailDriver\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/",
             "Workbench\\Database\\Factories\\": "workbench/database/factories/",
             "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
@@ -31,7 +31,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Samharvey\\LaravelDotmailerMailDriver\\LaravelDotmailerMailDriverServiceProvider"
+                "Fleximize\\LaravelDotmailerMailDriver\\LaravelDotmailerMailDriverServiceProvider"
             ]
         }
     },

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Samharvey\LaravelDotmailerMailDriver\Providers;
+namespace Fleximize\LaravelDotmailerMailDriver\Providers;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
-use Samharvey\LaravelDotmailerMailDriver\DotmailerClient;
-use Samharvey\LaravelDotmailerMailDriver\Enums\DotmailerEnum;
-use Samharvey\LaravelDotmailerMailDriver\Mail\Transport\DotmailerTransport;
+use Fleximize\LaravelDotmailerMailDriver\DotmailerClient;
+use Fleximize\LaravelDotmailerMailDriver\Enums\DotmailerEnum;
+use Fleximize\LaravelDotmailerMailDriver\Mail\Transport\DotmailerTransport;
 
 class LaravelDotmailerMailDriverServiceProvider extends ServiceProvider
 {

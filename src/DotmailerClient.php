@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Samharvey\LaravelDotmailerMailDriver;
+namespace Fleximize\LaravelDotmailerMailDriver;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use Samharvey\LaravelDotmailerMailDriver\Enums\RequestMethodEnum;
-use Samharvey\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerCredentialsException;
-use Samharvey\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerEmailContentException;
-use Samharvey\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerRegionException;
+use Fleximize\LaravelDotmailerMailDriver\Enums\RequestMethodEnum;
+use Fleximize\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerCredentialsException;
+use Fleximize\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerEmailContentException;
+use Fleximize\LaravelDotmailerMailDriver\Exceptions\MissingDotmailerRegionException;
 
 class DotmailerClient
 {
