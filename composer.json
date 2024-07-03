@@ -1,6 +1,6 @@
 {
     "name": "fleximize/laravel-dotdigital-mail-driver",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A Laravel mail driver for Dotdigital.",
     "type": "library",
     "license": "MIT",
