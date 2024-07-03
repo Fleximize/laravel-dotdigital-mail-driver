@@ -32,7 +32,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Fleximize\\LaravelDotdigitalMailDriver\\LaravelDotdigitalMailDriverServiceProvider"
+                "Fleximize\\LaravelDotdigitalMailDriver\\Providers\\LaravelDotdigitalMailDriverServiceProvider"
             ]
         }
     },
